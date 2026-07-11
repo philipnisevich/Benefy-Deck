@@ -262,18 +262,58 @@ body {
 @keyframes handDraw { to { clip-path: inset(0 0 0 0); } }
 
 /* ============================================================
-   Slide 7 — sources
+   Slide 7 — sponsor (DigitalOcean, what's live in production)
    ============================================================ */
-.sources { display: grid; gap: clamp(10px, 1.2vw, 16px); }
-.source {
-  display: grid;
-  gap: 3px;
-  padding: clamp(11px, 1.2vw, 15px) 0;
-  border-top: 1px solid var(--line);
+.do-sub {
+  font-size: clamp(14px, 1.5vw, 19px);
+  line-height: 1.35;
+  color: var(--slate);
 }
-.source h4 { font-size: clamp(14px, 1.35vw, 18px); font-weight: 600; color: var(--ink); }
-.source .desc { font-size: clamp(12.5px, 1.15vw, 15px); color: var(--slate); }
-.source .cite { font-size: clamp(12px, 1.05vw, 13.5px); color: var(--slate-2); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.do-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(20px, 2.8vw, 40px) clamp(32px, 5vw, 80px);
+}
+.do-item {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+}
+.do-item h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 1.9vw, 24px);
+  line-height: 1.1;
+  color: var(--teal);
+}
+.do-item p {
+  font-size: clamp(13px, 1.25vw, 16px);
+  line-height: 1.4;
+  color: var(--slate);
+}
+.do-item code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+  color: var(--ink);
+}
+.do-tag {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.62em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--teal-2);
+  background: var(--mint);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.do-foot {
+  margin-top: clamp(18px, 2.4vw, 30px);
+  padding-top: clamp(12px, 1.4vw, 18px);
+  border-top: 1px solid var(--line);
+  font-size: clamp(12.5px, 1.15vw, 15px);
+  color: var(--slate);
+}
+.do-foot strong { color: var(--teal); font-weight: 600; }
 
 /* ============================================================
    Chrome — page number, progress bar, controls
