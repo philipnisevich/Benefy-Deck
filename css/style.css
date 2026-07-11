@@ -209,36 +209,57 @@ body {
 .claim__rest { color: var(--ink); }
 
 /* ============================================================
-   Slide 6 — roadmap cards
+   Slide 6 — roadmap points (numbered, no boxes)
    ============================================================ */
-.headed-cards {
+.hl { color: var(--teal); }
+.headed {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 1.8vw, 26px);
+  gap: clamp(20px, 3vw, 48px);
 }
-.hcard {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: clamp(20px, 2vw, 30px);
+.headed__item {
   display: grid;
-  gap: 12px;
+  gap: clamp(10px, 1.2vw, 16px);
   align-content: start;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
-.hcard .dot {
-  width: 12px; height: 12px; border-radius: 50%;
-  background: var(--emerald);
-  box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.14);
+.headed__n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(15px, 1.4vw, 18px);
+  color: var(--teal);
+  letter-spacing: 0.04em;
 }
-.hcard h3 { font-family: var(--font-display); font-size: clamp(17px, 1.7vw, 22px); font-weight: 600; }
-.hcard p  { font-size: clamp(13.5px, 1.25vw, 16px); color: var(--slate); line-height: 1.55; }
-.hl { color: var(--teal); }
-.closing {
-  margin-top: clamp(22px, 3vw, 40px);
-  font-size: clamp(15px, 1.5vw, 19px);
-  color: var(--slate);
+.headed__item h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.15;
+  color: var(--ink);
 }
+/* Hand-drawn highlighter — the word stays black while an organic green
+   marker swash (rough edges, rounded ends, slight tilt) is drawn across it
+   left→right like a real highlighter, staggered per word via --hd. */
+.mark {
+  position: relative;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.mark::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.2em; right: -0.22em;
+  top: 0.04em; bottom: -0.1em;
+  transform: rotate(-1.2deg);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 52' preserveAspectRatio='none'%3E%3Cpath d='M9,30 Q3,21 13,18 C74,10 146,13 205,15 C255,16 288,19 309,12 Q318,19 312,30 C315,39 305,42 299,43 C232,46 149,46 88,44 C54,43 21,44 12,41 Q4,38 9,30 Z' fill='%2310B981' fill-opacity='0.55'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+  clip-path: inset(0 100% 0 0);
+}
+.slide.enter .mark::before {
+  animation: handDraw 560ms cubic-bezier(0.6, 0, 0.4, 1) both;
+  animation-delay: var(--hd, 0ms);
+}
+@keyframes handDraw { to { clip-path: inset(0 0 0 0); } }
 
 /* ============================================================
    Slide 7 — sources
