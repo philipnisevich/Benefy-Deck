@@ -143,12 +143,66 @@
       slide.classList.remove('enter');
       void slide.offsetWidth;          // force reflow so the animation restarts
       slide.classList.add('enter');
+      playEasy(slide);
     }
+  }
+
+  /* ---------- slide 5: EASY assembles in the middle, then spreads ---------- */
+  function playEasy(slide) {
+    const journey = slide.querySelector('.journey');
+    if (!journey) return;
+    const letters = [...journey.querySelectorAll('.claim__letter')];
+    const rests = [...journey.querySelectorAll('.claim__rest')];
+    if (!letters.length) return;
+
+    // Reset any previous run so we measure the natural (spread) positions.
+    [...letters, ...rests].forEach(el => {
+      el.getAnimations().forEach(a => a.cancel());
+      el.style.transform = '';
+      el.style.opacity = '';
+    });
+    void journey.offsetWidth;
+    if (reduceMotion) return;          // leave final state in place
+
+    // Measure each letter's natural centre, then work out the shift that
+    // packs all four into a single centred word "EASY".
+    const jc = journey.getBoundingClientRect();
+    const centerX = jc.left + jc.width / 2;
+    const rects = letters.map(l => l.getBoundingClientRect());
+    const totalW = rects.reduce((s, r) => s + r.width, 0);
+    let cursor = centerX - totalW / 2;
+    const offsets = rects.map(r => {
+      const wordCentre = cursor + r.width / 2;
+      cursor += r.width;
+      return wordCentre - (r.left + r.width / 2);
+    });
+
+    // Start: black text hidden, letters clustered as the word in the centre.
+    rests.forEach(r => { r.style.opacity = '0'; });
+    letters.forEach((l, i) => { l.style.opacity = '0'; l.style.transform = `translateX(${offsets[i]}px)`; });
+
+    // 1) word fades in centred → 2) holds → 3) spreads out to the columns.
+    letters.forEach((l, i) => {
+      l.animate([
+        { opacity: 0, transform: `translateX(${offsets[i]}px)` },
+        { opacity: 1, transform: `translateX(${offsets[i]}px)`, offset: 0.22 },
+        { opacity: 1, transform: `translateX(${offsets[i]}px)`, offset: 0.44 },
+        { opacity: 1, transform: 'translateX(0)' }
+      ], { duration: 1500, delay: 250, easing: EASE, fill: 'both' });
+    });
+
+    // 4) the black claim text is brought in once the letters have spread.
+    rests.forEach((r, i) => {
+      r.animate([
+        { opacity: 0, transform: 'translateY(8px)' },
+        { opacity: 1, transform: 'none' }
+      ], { duration: 520, delay: 1720 + i * 70, easing: EASE, fill: 'both' });
+    });
   }
 
   function updateChrome() {
     progress.style.width = `${index / (slides.length - 1) * 100}%`;
-    pageno.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    pageno.textContent = String(index + 1).padStart(2, '0');
     document.body.classList.toggle('title-slide-active', slides[index].dataset.kind === 'title');
     if (location.hash !== '#' + (index + 1)) history.replaceState(null, '', '#' + (index + 1));
   }
